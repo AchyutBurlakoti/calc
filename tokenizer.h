@@ -29,12 +29,14 @@ typedef enum STATE
 } STATE;
 
 STATE transition_table[6][5] = {
+
     { ID, INT, OP, ERR, PARAN },
     { ERR, INT, ERR, FLOAT, ERR },
     { ERR, FLOAT, ERR, ERR, ERR },
     { ID, ERR, ERR, ERR, ERR },
     { ERR, ERR, ERR, ERR, ERR },
     { ERR, ERR, ERR, ERR, ERR },
+
 };
 
 STATE state;
@@ -128,18 +130,22 @@ TOKENS CharCat(char c)
     {
         return OPERATOR;
     }
+
     else if(c == '.')
     {
         return DOT;
     }
+
     else if((c > 96 & c < 123) | (c > 64 & c < 91))
     {
         return IDENTIFIER;
     }
+
     else if(c > 47 & c < 58)
     {
         return VALUE;
     }
+
     else if(c == '(' | c == ')')
     {
         return PARANTHESIS;
@@ -155,50 +161,65 @@ char lexeme[MAX_EXPR];
 
 void scanner(char* _expr)
 {
-    char* expr = remove_space(_expr);
+    char* expr  = remove_space(_expr);
     STATE state = START;
+
     TOKENS previous_tkn;
+
     clear();
     push(BAD);
-    int expr_ptr = 0;
-    int lexeme_ptr = 0;
+
+    int expr_ptr    = 0;
+    int lexeme_ptr  = 0;
 
     while(expr[expr_ptr] != '\0')
     {
         state = START;
+
         while(state != ERR)
         {
-            char c = expr[expr_ptr];
             TOKENS cat;
-            previous_tkn = cat;
-            lexeme[lexeme_ptr] = c;
+
+            char c              = expr[expr_ptr];
+            previous_tkn        = cat;
+            lexeme[lexeme_ptr]  = c;
+
             expr_ptr++;
             lexeme_ptr++;
+
             // if state <-- Accepting state
             if (state == ID | state == INT | state == FLOAT | state == OP)
             {
                 clear();
             }
+
             push(state);
-            cat = CharCat(c);
-            state = delta(state, cat);
+
+            cat     = CharCat(c);
+            state   = delta(state, cat);
         }
+
         lexeme[lexeme_ptr-1] = '\0';
+
         while((state != ID & state != INT & state != FLOAT & state != OP & state != PARAN) & state != BAD)
         {
             state = pop();
         }
+
         if(state == ID | state == INT | state == FLOAT | state == OP | state == PARAN)
         {
             tbl[tbl_ptr].tkn = previous_tkn;
-            int i = 0;
+            int i            = 0;
+
             while(lexeme[i] != '\0')
             {
                 tbl[tbl_ptr].var[i] = lexeme[i];
                 i++;
             }
+
             tbl_ptr++;
         }
+        
         memset(lexeme, 0, MAX_EXPR);
         lexeme_ptr = 0;
         expr_ptr--;

@@ -164,45 +164,53 @@ void clear_()
     top = 0;
 }
 
-    TERMINAL get_token(char* c, TOKENS t)
+TERMINAL get_token(char* c, TOKENS t)
+{
+    if(!strcmp(c, "+"))
     {
-        if(!strcmp(c, "+"))
-        {
-            return PLUS;
-        }
-        else if(!strcmp(c, "-"))
-        {
-            return MINUS;
-        }
-        else if(!strcmp(c, "*"))
-        {
-            return MULTIPLY;
-        }
-        else if(!strcmp(c, "/"))
-        {
-            return DIVIDE;
-        }
-        else if(!strcmp(c, "("))
-        {
-            return LEFT_PARAN;
-        }
-        else if(!strcmp(c, ")"))
-        {
-            return RIGHT_PARAN;
-        }
-        else if(t == IDENTIFIER)
-        {
-            return NAME;
-        }
-        else if(t == VALUE)
-        {
-            return NUMBER;
-        }
-        else 
-        {
-            return _EOF;
-        }
+        return PLUS;
     }
+
+    else if(!strcmp(c, "-"))
+    {
+        return MINUS;
+    }
+
+    else if(!strcmp(c, "*"))
+    {
+        return MULTIPLY;
+    }
+
+    else if(!strcmp(c, "/"))
+    {
+        return DIVIDE;
+    }
+
+    else if(!strcmp(c, "("))
+    {
+        return LEFT_PARAN;
+    }
+
+    else if(!strcmp(c, ")"))
+    {
+        return RIGHT_PARAN;
+    }
+
+    else if(t == IDENTIFIER)
+    {
+        return NAME;
+    }
+
+    else if(t == VALUE)
+    {
+        return NUMBER;
+    }
+
+    else 
+    {
+        return _EOF;
+    }
+}
 
 int count = 0;
 
@@ -226,6 +234,7 @@ void parser_(NODE *curr)
 
         for(int i = l - 1; i > -1; i--)
         {
+            // need to write some code here.
             if()
         }
     }
